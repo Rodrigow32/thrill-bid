@@ -10,33 +10,73 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as ParceiroRouteImport } from './routes/parceiro'
+import { Route as UsuarioRouteImport } from './routes/usuario'
+import { Route as LeilaoIdRouteImport } from './routes/leilao.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParceiroRoute = ParceiroRouteImport.update({
+  id: '/parceiro',
+  path: '/parceiro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsuarioRoute = UsuarioRouteImport.update({
+  id: '/usuario',
+  path: '/usuario',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeilaoIdRoute = LeilaoIdRouteImport.update({
+  id: '/leilao/$id',
+  path: '/leilao/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/parceiro': typeof ParceiroRoute
+  '/usuario': typeof UsuarioRoute
+  '/leilao/$id': typeof LeilaoIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/parceiro': typeof ParceiroRoute
+  '/usuario': typeof UsuarioRoute
+  '/leilao/$id': typeof LeilaoIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/parceiro': typeof ParceiroRoute
+  '/usuario': typeof UsuarioRoute
+  '/leilao/$id': typeof LeilaoIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/admin' | '/parceiro' | '/usuario' | '/leilao/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/admin' | '/parceiro' | '/usuario' | '/leilao/$id'
+  id: '__root__' | '/' | '/admin' | '/parceiro' | '/usuario' | '/leilao/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  ParceiroRoute: typeof ParceiroRoute
+  UsuarioRoute: typeof UsuarioRoute
+  LeilaoIdRoute: typeof LeilaoIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +88,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parceiro': {
+      id: '/parceiro'
+      path: '/parceiro'
+      fullPath: '/parceiro'
+      preLoaderRoute: typeof ParceiroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/usuario': {
+      id: '/usuario'
+      path: '/usuario'
+      fullPath: '/usuario'
+      preLoaderRoute: typeof UsuarioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leilao/$id': {
+      id: '/leilao/$id'
+      path: '/leilao/$id'
+      fullPath: '/leilao/$id'
+      preLoaderRoute: typeof LeilaoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  ParceiroRoute: ParceiroRoute,
+  UsuarioRoute: UsuarioRoute,
+  LeilaoIdRoute: LeilaoIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
