@@ -26,7 +26,8 @@ const STATUS: Record<ItemStatus, [string, string]> = {
 const input = "w-full rounded-lg border bg-background px-3 py-2 text-sm";
 
 function Page() {
-  const items = useStore((s) => s.items.filter((i) => i.partner === "TechStore"));
+  const allItems = useStore((s) => s.items);
+  const items = allItems.filter((i) => i.partner === "TechStore");
   const [f, setF] = useState({ title: "", description: "", marketValue: "", category: "geral" as Category, image: "" });
   const revenue = items.reduce((a, i) => a + (i.finalPrice ?? 0), 0);
 
