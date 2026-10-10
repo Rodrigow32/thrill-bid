@@ -113,7 +113,7 @@ export function useEngine() {
         }
         // bots bid more often near the end, but stop sometimes so auctions finish
         const p = left < 4000 ? 0.12 : 0.01;
-        if (Math.random() < p && i.bids.length < 400) placeBid(i.id, BOTS[Math.floor(Math.random() * BOTS.length)]);
+        if (Math.random() < p && i.bids.length < 400) placeBid(i.id, BOTS[Math.floor(Math.random() * BOTS.length)]!);
       });
     }, 200);
     return () => { clearInterval(t); engine = false; };

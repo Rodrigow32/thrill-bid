@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Upload } from "lucide-react";
-import { actions, brl, CATEGORIES, useStore, type Category } from "@/lib/store";
+import { actions, brl, CATEGORIES, useStore, type Category, type ItemStatus } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/parceiro")({
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/parceiro")({
   component: Page,
 });
 
-const STATUS: Record<string, [string, string]> = {
+const STATUS: Record<ItemStatus, [string, string]> = {
   pendente: ["Pendente", "bg-muted text-muted-foreground"],
   aprovado: ["Aprovado", "bg-secondary"],
   agendado: ["Aprovado · agendado", "bg-secondary"],
