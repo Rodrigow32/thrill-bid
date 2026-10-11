@@ -5,6 +5,6 @@
 - [x] Verify interactions and route metadata.
 
 # Registration
-- [ ] Create validated buyer/merchant registration tabs and merchant confirmation.
-- [ ] Connect registration entry points and buyer plan selection with 10/200 bids.
-- [ ] Test both flows and layout.
+- [x] Create validated buyer/merchant registration tabs and merchant confirmation.
+- [x] Connect registration entry points and buyer plan selection with 10/200 bids.
+- [x] Test both flows and layout.
