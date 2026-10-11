@@ -15,6 +15,7 @@ import { Route as ParceiroRouteImport } from './routes/parceiro'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as UsuarioRouteImport } from './routes/usuario'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as LeilaoIdRouteImport } from './routes/leilao.$id'
 
@@ -48,6 +49,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/parceiro': typeof ParceiroRoute
   '/register': typeof RegisterRoute
   '/usuario': typeof UsuarioRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/login': typeof AdminLoginRoute
   '/leilao/$id': typeof LeilaoIdRoute
   '/admin/': typeof AdminIndexRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/parceiro': typeof ParceiroRoute
   '/register': typeof RegisterRoute
   '/usuario': typeof UsuarioRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/login': typeof AdminLoginRoute
   '/leilao/$id': typeof LeilaoIdRoute
   '/admin': typeof AdminIndexRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/parceiro': typeof ParceiroRoute
   '/register': typeof RegisterRoute
   '/usuario': typeof UsuarioRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/login': typeof AdminLoginRoute
   '/leilao/$id': typeof LeilaoIdRoute
   '/admin/': typeof AdminIndexRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/parceiro'
     | '/register'
     | '/usuario'
+    | '/admin/dashboard'
     | '/admin/login'
     | '/leilao/$id'
     | '/admin/'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/parceiro'
     | '/register'
     | '/usuario'
+    | '/admin/dashboard'
     | '/admin/login'
     | '/leilao/$id'
     | '/admin'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/parceiro'
     | '/register'
     | '/usuario'
+    | '/admin/dashboard'
     | '/admin/login'
     | '/leilao/$id'
     | '/admin/'
@@ -174,6 +186,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/login'
@@ -192,11 +211,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminDashboardRoute: typeof AdminDashboardRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminDashboardRoute: AdminDashboardRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
