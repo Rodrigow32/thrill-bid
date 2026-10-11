@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/register")({
-  validateSearch: (search: Record<string, unknown>): { perfil: "usuario" | "parceiro" } => ({ perfil: search.perfil === "parceiro" ? "parceiro" : "usuario" }),
+  validateSearch: (search: Record<string, unknown>): { perfil: "usuario" | "parceiro" } => ({ perfil: search["perfil"] === "parceiro" ? "parceiro" : "usuario" }),
   head: () => ({ meta: [
     { title: "Cadastro de usuário e parceiro — Thrill Bid" },
     { name: "description", content: "Cadastre seu perfil de comprador ou loja parceira no Thrill Bid e escolha seu plano de lances." },
