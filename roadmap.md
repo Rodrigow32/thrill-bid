@@ -12,4 +12,4 @@
 # User dashboard
 - [x] Separate bid balances and connect package purchase simulation.
 - [x] Create pastel dashboard, activity tabs and referral link.
-- [x] Verify balances, tabs, copy action and registration link.
+- [x] Verify balances, tabs, copy action and registration link.- [x] Login administrativo em /admin/login com guarda de rota em /admin/dashboard
