@@ -1,6 +1,6 @@
-import { ClientOnly, createFileRoute } from "@tanstack/react-router";
+import { ClientOnly, createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowRight, CalendarDays, Gavel, Search, X } from "lucide-react";
+import { ArrowRight, CalendarDays, Gavel, LockKeyhole, Search, X } from "lucide-react";
 import { CATEGORIES, useStore, type Category, type Item } from "@/lib/store";
 import { AuctionDetail } from "@/components/auction";
 import { HomeAuctionCard } from "@/components/HomeAuctionCard";
@@ -56,6 +56,6 @@ function Vitrine() {
         {selected && <aside className="fixed inset-0 z-40 overflow-y-auto bg-background p-5 lg:sticky lg:top-5 lg:z-0 lg:max-h-[calc(100vh-3rem)] lg:w-[400px] lg:shrink-0 lg:rounded-lg lg:border"><Button variant="ghost" onClick={() => setSel(null)} className="mb-3 ml-auto flex"><X />Fechar</Button><AuctionDetail item={selected} compact /></aside>}
       </div>
     </main>
-    <footer className="border-t bg-card"><div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-7 lg:px-8"><span className="text-lg font-bold">Thrill Bid<span className="text-primary">.</span></span><p className="text-xs text-muted-foreground">Cada lance, uma nova possibilidade.</p><Button variant="ghost" onClick={() => requestAccess(true)} className="text-xs text-muted-foreground">Sua loja por aqui<ArrowRight /></Button></div></footer>
+    <footer className="border-t bg-card"><div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-7 lg:px-8"><span className="text-lg font-bold">Thrill Bid<span className="text-primary">.</span></span><p className="text-xs text-muted-foreground">Cada lance, uma nova possibilidade.</p><div className="flex flex-wrap items-center gap-2"><Button variant="ghost" onClick={() => requestAccess(true)} className="text-xs text-muted-foreground">Sua loja por aqui<ArrowRight /></Button><Link to="/admin/login" className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[11px] text-muted-foreground/80 transition-colors hover:text-primary"><LockKeyhole className="size-3" />Acesso da gestão</Link></div></div></footer>
   </>;
 }
