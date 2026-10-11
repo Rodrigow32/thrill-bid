@@ -4,10 +4,10 @@ import { actions, useStore, type Role } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import { useVisitorAccess } from "@/components/VisitorAccess";
 
-const ROLES: { id: Role; label: string; to: "/usuario" | "/parceiro" | "/admin" }[] = [
+const ROLES: { id: Role; label: string; to: "/usuario" | "/parceiro" | "/admin/dashboard" }[] = [
   { id: "usuario", label: "Usuário", to: "/usuario" },
   { id: "parceiro", label: "Parceiro", to: "/parceiro" },
-  { id: "admin", label: "Admin", to: "/admin" },
+  { id: "admin", label: "Admin", to: "/admin/dashboard" },
 ];
 export function AppHeader() {
   const role = useStore(s => s.role);

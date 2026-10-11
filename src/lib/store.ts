@@ -37,11 +37,12 @@ function mk(p: Partial<Item> & Pick<Item, "title" | "image" | "marketValue" | "c
 
 interface State {
   role: Role; wallet: number; bidBalances: { free: number; purchased: number; referral: number }; referralCode: string; plan: "gratuito" | "pago"; items: Item[];
-  bidsPurchased: number; planRevenue: number; packRevenue: number;
+  bidsPurchased: number; planRevenue: number; packRevenue: number; adminAuthed: boolean;
 }
 
 let state: State = {
   role: "usuario", wallet: 45, plan: "gratuito", bidsPurchased: 12840, planRevenue: 18450, packRevenue: 32190,
+  adminAuthed: false,
   bidBalances: { free: 45, purchased: 0, referral: 0 }, referralCode: `THRILL-${Math.floor(1000 + Math.random() * 9000)}`,
   items: [
     mk({ title: "iPhone 15 Pro 256GB", image: img("photo-1695048133142-1a20484d2569"), marketValue: 8999, category: "eletronicos" }),
@@ -100,7 +101,15 @@ export const actions = {
   schedule: (id: string, startsAt: number, increment: number, category: Category) =>
     updItem(id, () => ({ status: "agendado", startsAt, increment, category })),
   startNow: (id: string) => updItem(id, () => ({ status: "ativo", startsAt: null, endsAt: now() + 15000 })),
+  adminLogin: (email: string, password: string) => {
+    const ok = email.trim().toLowerCase() === "admin@thrillbid.com" && password === "admin123";
+    if (ok) set(() => ({ adminAuthed: true, role: "admin" }));
+    return ok;
+  },
+  adminLogout: () => set(() => ({ adminAuthed: false })),
 };
+
+export const isAdminAuthed = () => state.adminAuthed;
 
 export const ME_NAME = ME;
 
