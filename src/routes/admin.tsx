@@ -5,10 +5,12 @@ import { actions, brl, catLabel, CATEGORIES, useStore, type Category, type Item 
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "Gestão — centavo." },
+      { title: "Gestão — Thrill Bid" },
       { name: "description", content: "Aprovação, agendamento de leilões e relatórios gerais." },
-      { property: "og:title", content: "Gestão — centavo." },
+      { property: "og:title", content: "Gestão — Thrill Bid" },
       { property: "og:description", content: "Aprovação, agendamento e relatórios." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Page,

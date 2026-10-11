@@ -5,10 +5,12 @@ import { actions, brl, useStore, ME_NAME } from "@/lib/store";
 export const Route = createFileRoute("/usuario")({
   head: () => ({
     meta: [
-      { title: "Minha carteira — centavo." },
+      { title: "Minha carteira — Thrill Bid" },
       { name: "description", content: "Saldo de lances, planos, arremates e histórico de participação." },
-      { property: "og:title", content: "Minha carteira — centavo." },
+      { property: "og:title", content: "Minha carteira — Thrill Bid" },
       { property: "og:description", content: "Saldo de lances, planos e arremates." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Page,
