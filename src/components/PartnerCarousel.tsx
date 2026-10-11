@@ -19,6 +19,7 @@ export function PartnerCarousel() {
     return () => clearInterval(timer);
   }, [paused]);
   const ad = ads[slide] ?? ads[0];
+  if (!ad) return null;
   return <section aria-label="Publicidade de parceiros" aria-roledescription="carrossel" className="relative overflow-hidden rounded-lg bg-promo" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocusCapture={() => setPaused(true)} onBlurCapture={() => setPaused(false)}>
     <img src={headphones} width={1536} height={512} alt="Fone sem fio premium em fundo verde suave" className="absolute inset-0 h-full w-full object-cover object-right opacity-40 sm:opacity-100" />
     <div className="relative px-6 py-8 sm:px-10 sm:py-10">

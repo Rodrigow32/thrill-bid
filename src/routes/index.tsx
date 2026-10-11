@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { ClientOnly, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowRight, CalendarDays, Gavel, Search, X } from "lucide-react";
 import { CATEGORIES, useStore, type Category, type Item } from "@/lib/store";
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
   ] }),
-  component: Vitrine,
+  component: () => <ClientOnly fallback={<div className="mx-auto max-w-7xl px-5 py-12 text-muted-foreground">Carregando leilões…</div>}><Vitrine /></ClientOnly>,
 });
 function Vitrine() {
   const items = useStore(s => s.items);
