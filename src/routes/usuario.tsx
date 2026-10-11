@@ -42,8 +42,8 @@ function Page() {
         </div>
         <div className="rounded-2xl border p-6">
           <div className="text-sm text-muted-foreground">Plano ativo</div>
-          <div className="mt-1 flex items-center gap-2 text-2xl font-bold">{plan === "pago" && <Crown className="h-5 w-5 text-urgent" />}{plan === "pago" ? "Pago" : "Gratuito"}</div>
-          <p className="mt-2 text-sm text-muted-foreground">{plan === "pago" ? "300 lances/mês inclusos." : "Lances limitados. Assine e ganhe 300 lances por mês."}</p>
+          <div className="mt-1 flex items-center gap-2 text-2xl font-bold">{plan === "pago" && <Crown className="h-5 w-5 text-urgent" />}{plan === "pago" ? "Premium" : "Gratuito"}</div>
+          <p className="mt-2 text-sm text-muted-foreground">{plan === "pago" ? "200 lances/mês inclusos." : "10 lances inclusos no cadastro. O Premium oferece 200 lances mensais."}</p>
           {plan === "gratuito" && <button onClick={actions.subscribe} className="mt-4 w-full rounded-xl bg-urgent py-3 font-semibold text-urgent-foreground">Assinar por {brl(49.9)}/mês</button>}
         </div>
       </div>

@@ -20,7 +20,7 @@ export function AppHeader() {
       <nav className="flex items-center gap-5 text-xs font-medium text-muted-foreground">
         <Link to="/" activeOptions={{ exact: true }} activeProps={{ className: "text-primary" }}>Leilões</Link>
         <a href="/#agendados" className="hover:text-primary">Agendados</a>
-        <Button variant="ghost" className="h-auto p-0 text-xs text-muted-foreground" onClick={() => requestAccess(true)}>Parceiros</Button>
+        <Button asChild variant="ghost" className="h-auto p-0 text-xs text-muted-foreground"><Link to="/register" search={{ perfil: "parceiro" }}>Parceiros</Link></Button>
       </nav>
       <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
         {signedIn ? <>
@@ -28,8 +28,8 @@ export function AppHeader() {
           <select aria-label="Visão de demonstração" value={role} className="h-8 rounded-md border bg-card px-2 text-xs" onChange={e => { const r = ROLES.find(r => r.id === e.target.value); if (r) { actions.setRole(r.id); navigate({ to: r.to }); } }}>{ROLES.map(r => <option key={r.id} value={r.id}>{r.label}</option>)}</select>
           <Button size="icon" variant="ghost" title="Voltar ao modo visitante" aria-label="Sair da demonstração" onClick={() => { signOut(); navigate({ to: "/" }); }}><LogOut /></Button>
         </> : <>
-          <Button variant="outline" className="h-10 px-3 text-xs" onClick={() => requestAccess(true)}>Seja um Parceiro Comercial<ArrowUpRight /></Button>
-          <Button className="h-10 px-4 text-xs" onClick={() => requestAccess()}>Cadastro de Usuário<ArrowUpRight /></Button>
+          <Button asChild variant="outline" className="h-10 px-3 text-xs"><Link to="/register" search={{ perfil: "parceiro" }}>Seja um Parceiro Comercial<ArrowUpRight /></Link></Button>
+          <Button asChild className="h-10 px-4 text-xs"><Link to="/register" search={{ perfil: "usuario" }}>Cadastro de Usuário<ArrowUpRight /></Link></Button>
         </>}
       </div>
     </div>

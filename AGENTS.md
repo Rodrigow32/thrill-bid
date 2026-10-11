@@ -11,3 +11,5 @@
 
 - Keep visitor/demo access in a shared React context, with no persisted accounts; the project remains a frontend simulation until real registration is explicitly requested.
 - Keep homepage-specific auction cards separate from shared auction detail controls to preserve existing dashboard flows.
+- Keep simulated registration at /register with shared Zod schemas and transient form state; do not persist personal documents or passwords or transmit them to a server.
+- Only complete buyer demo access after plan selection; merchant submissions remain pending and do not unlock partner access.
