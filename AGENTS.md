@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep visitor/demo access in a shared React context, with no persisted accounts; the project remains a frontend simulation until real registration is explicitly requested.
+- Keep homepage-specific auction cards separate from shared auction detail controls to preserve existing dashboard flows.

@@ -1,47 +1,38 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Gavel, Wallet } from "lucide-react";
+import { ArrowUpRight, Gavel, LockKeyhole, LogOut, Wallet } from "lucide-react";
 import { actions, useStore, type Role } from "@/lib/store";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { useVisitorAccess } from "@/components/VisitorAccess";
 
 const ROLES: { id: Role; label: string; to: "/usuario" | "/parceiro" | "/admin" }[] = [
   { id: "usuario", label: "Usuário", to: "/usuario" },
   { id: "parceiro", label: "Parceiro", to: "/parceiro" },
   { id: "admin", label: "Admin", to: "/admin" },
 ];
-
 export function AppHeader() {
-  const role = useStore((s) => s.role);
-  const wallet = useStore((s) => s.wallet);
-  const nav = useNavigate();
-  return (
-    <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-3">
-        <Link to="/" className="flex items-center gap-2 font-bold text-lg">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-urgent text-urgent-foreground"><Gavel className="h-4 w-4" /></span>
-          centavo<span className="text-urgent">.</span>
-        </Link>
-        <nav className="ml-4 hidden gap-4 text-sm sm:flex">
-          <Link to="/" activeOptions={{ exact: true }} activeProps={{ className: "font-semibold" }} className="text-muted-foreground">Vitrine</Link>
-          {ROLES.filter((r) => r.id === role).map((r) => (
-            <Link key={r.id} to={r.to} activeProps={{ className: "font-semibold text-foreground" }} className="text-muted-foreground">Meu painel</Link>
-          ))}
-        </nav>
-        <div className="ml-auto flex items-center gap-3">
-          {role === "usuario" && (
-            <Link to="/usuario" className="flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold">
-              <Wallet className="h-4 w-4" /> {wallet} lances
-            </Link>
-          )}
-          <div className="flex rounded-full border bg-muted p-1 text-xs">
-            {ROLES.map((r) => (
-              <button key={r.id} onClick={() => { actions.setRole(r.id); nav({ to: r.to }); }}
-                className={cn("rounded-full px-3 py-1.5 font-medium transition", role === r.id ? "bg-foreground text-background" : "text-muted-foreground")}>
-                {r.label}
-              </button>
-            ))}
-          </div>
-        </div>
+  const role = useStore(s => s.role);
+  const wallet = useStore(s => s.wallet);
+  const { signedIn, requestAccess, signOut } = useVisitorAccess();
+  const navigate = useNavigate();
+  return <header className="border-b bg-card">
+    <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-4 px-5 py-5 lg:px-8">
+      <Link to="/" className="flex items-center gap-2.5 text-xl font-bold"><span className="grid size-9 place-items-center rounded-lg bg-primary text-primary-foreground"><Gavel className="size-5" /></span>Thrill Bid<span className="text-primary">.</span></Link>
+      <nav className="flex items-center gap-5 text-xs font-medium text-muted-foreground">
+        <Link to="/" activeOptions={{ exact: true }} activeProps={{ className: "text-primary" }}>Leilões</Link>
+        <a href="/#agendados" className="hover:text-primary">Agendados</a>
+        <Button variant="ghost" className="h-auto p-0 text-xs text-muted-foreground" onClick={() => requestAccess(true)}>Parceiros</Button>
+      </nav>
+      <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
+        {signedIn ? <>
+          <Button asChild variant="secondary" size="sm"><Link to="/usuario"><Wallet /> {wallet} lances</Link></Button>
+          <select aria-label="Visão de demonstração" value={role} className="h-8 rounded-md border bg-card px-2 text-xs" onChange={e => { const r = ROLES.find(r => r.id === e.target.value); if (r) { actions.setRole(r.id); navigate({ to: r.to }); } }}>{ROLES.map(r => <option key={r.id} value={r.id}>{r.label}</option>)}</select>
+          <Button size="icon" variant="ghost" title="Voltar ao modo visitante" aria-label="Sair da demonstração" onClick={() => { signOut(); navigate({ to: "/" }); }}><LogOut /></Button>
+        </> : <>
+          <Button variant="outline" className="h-10 px-3 text-xs" onClick={() => requestAccess(true)}>Seja um Parceiro Comercial<ArrowUpRight /></Button>
+          <Button className="h-10 px-4 text-xs" onClick={() => requestAccess()}>Cadastro de Usuário<ArrowUpRight /></Button>
+        </>}
       </div>
-    </header>
-  );
+    </div>
+    {!signedIn && <div className="flex items-center justify-center gap-2 bg-secondary px-4 py-2.5 text-xs text-primary"><LockKeyhole className="size-3.5" /><span>Cadastre-se para liberar o painel de lances</span><Button variant="link" onClick={() => requestAccess()} className="hidden h-auto p-0 text-xs underline sm:inline-flex">Criar minha conta<ArrowUpRight /></Button></div>}
+  </header>;
 }

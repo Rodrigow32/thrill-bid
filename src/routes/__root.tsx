@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
+import { VisitorAccessProvider } from "@/components/VisitorAccess";
 import { AppHeader } from "@/components/AppHeader";
 import { useEngine } from "@/lib/store";
 import appCss from "../styles.css?url";
@@ -80,7 +81,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "centavo. — Leilão de centavos" },
+      { title: "Thrill Bid — Leilão de centavos" },
       { name: "description", content: "Plataforma de leilão de centavos em tempo real." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -123,8 +124,10 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <AppHeader />
-      <Outlet />
+      <VisitorAccessProvider>
+        <AppHeader />
+        <Outlet />
+      </VisitorAccessProvider>
     </QueryClientProvider>
   );
 }
