@@ -13,3 +13,6 @@
 - Keep homepage-specific auction cards separate from shared auction detail controls to preserve existing dashboard flows.
 - Keep simulated registration at /register with shared Zod schemas and transient form state; do not persist personal documents or passwords or transmit them to a server.
 - Only complete buyer demo access after plan selection; merchant submissions remain pending and do not unlock partner access.
+- Render the buyer dashboard in a dedicated UserDashboard component at /usuario; keep its activity and package selection separate from auction controls.
+- Keep bid source balances in the shared transient store and update their sum with every wallet action; consume plan/bonus bids, then referral bids, then purchased bids to preserve source accounting.
+- Keep referral codes in the transient demo store and pass them through the validated registration search parameter for shareable prefilling without storing personal data.

@@ -18,6 +18,7 @@ export interface Item {
   category: Category; partner: string; status: ItemStatus; price: number; increment: number;
   timerSec: number; endsAt: number | null; startsAt: number | null; lastBidder: string | null;
   bids: Bid[]; winner?: string; finalPrice?: number;
+  fulfillment?: "aguardando_pagamento" | "aguardando_envio" | "enviado";
 }
 
 const BOTS = ["marina_s", "joao.p", "carla88", "rafa_lances", "bia.m", "tiago_r", "ana.lu"];
@@ -35,12 +36,13 @@ function mk(p: Partial<Item> & Pick<Item, "title" | "image" | "marketValue" | "c
 }
 
 interface State {
-  role: Role; wallet: number; plan: "gratuito" | "pago"; items: Item[];
+  role: Role; wallet: number; bidBalances: { free: number; purchased: number; referral: number }; referralCode: string; plan: "gratuito" | "pago"; items: Item[];
   bidsPurchased: number; planRevenue: number; packRevenue: number;
 }
 
 let state: State = {
   role: "usuario", wallet: 45, plan: "gratuito", bidsPurchased: 12840, planRevenue: 18450, packRevenue: 32190,
+  bidBalances: { free: 45, purchased: 0, referral: 0 }, referralCode: `THRILL-${Math.floor(1000 + Math.random() * 9000)}`,
   items: [
     mk({ title: "iPhone 15 Pro 256GB", image: img("photo-1695048133142-1a20484d2569"), marketValue: 8999, category: "eletronicos" }),
     mk({ title: "PlayStation 5 Slim", image: img("photo-1606813907291-d86efa9b94db"), marketValue: 3799, category: "geral" }),
@@ -77,15 +79,21 @@ function placeBid(id: string, user: string) {
 
 export const actions = {
   setRole: (role: Role) => set(() => ({ role })),
-  registerDemo: (plan: "gratuito" | "pago") => set(() => ({ role: "usuario", plan, wallet: plan === "gratuito" ? 10 : 200 })),
+  registerDemo: (plan: "gratuito" | "pago") => set(() => ({ role: "usuario", plan, wallet: plan === "gratuito" ? 10 : 200, bidBalances: { free: plan === "gratuito" ? 10 : 200, purchased: 0, referral: 0 } })),
   bid: (id: string) => {
     if (state.wallet <= 0) return false;
-    set((s) => ({ wallet: s.wallet - 1 }));
+    set((s) => {
+      const bidBalances = { ...s.bidBalances };
+      if (bidBalances.free > 0) bidBalances.free -= 1;
+      else if (bidBalances.referral > 0) bidBalances.referral -= 1;
+      else bidBalances.purchased -= 1;
+      return { wallet: s.wallet - 1, bidBalances };
+    });
     placeBid(id, ME);
     return true;
   },
-  buyPack: (qty: number, price: number) => set((s) => ({ wallet: s.wallet + qty, bidsPurchased: s.bidsPurchased + qty, packRevenue: s.packRevenue + price })),
-  subscribe: () => set((s) => ({ plan: "pago", wallet: s.wallet + 200, planRevenue: s.planRevenue + 49.9 })),
+  buyPack: (qty: number, price: number) => set((s) => ({ wallet: s.wallet + qty, bidBalances: { ...s.bidBalances, purchased: s.bidBalances.purchased + qty }, bidsPurchased: s.bidsPurchased + qty, packRevenue: s.packRevenue + price })),
+  subscribe: () => set((s) => ({ plan: "pago", wallet: s.wallet + 200, bidBalances: { ...s.bidBalances, free: s.bidBalances.free + 200 }, planRevenue: s.planRevenue + 49.9 })),
   submitItem: (d: Pick<Item, "title" | "description" | "image" | "marketValue" | "category">) =>
     set((s) => ({ items: [...s.items, mk({ ...d, status: "pendente", endsAt: null, partner: "TechStore" })] })),
   approve: (id: string) => updItem(id, () => ({ status: "aprovado" })),
@@ -109,12 +117,14 @@ export function useEngine() {
         const left = i.endsAt - n;
         if (left <= 0) {
           if (!i.lastBidder) { updItem(i.id, () => ({ endsAt: n + 15000 })); return; }
-          updItem(i.id, (x) => ({ status: "leiloado", winner: x.lastBidder!, finalPrice: x.price, endsAt: null }));
+          const winner = i.lastBidder;
+          updItem(i.id, (x) => ({ status: "leiloado", winner, finalPrice: x.price, endsAt: null }));
           return;
         }
         // bots bid more often near the end, but stop sometimes so auctions finish
         const p = left < 4000 ? 0.12 : 0.01;
-        if (Math.random() < p && i.bids.length < 400) placeBid(i.id, BOTS[Math.floor(Math.random() * BOTS.length)]!);
+        const bot = BOTS[Math.floor(Math.random() * BOTS.length)];
+        if (bot && Math.random() < p && i.bids.length < 400) placeBid(i.id, bot);
       });
     }, 200);
     return () => { clearInterval(t); engine = false; };

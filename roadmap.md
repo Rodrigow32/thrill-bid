@@ -8,3 +8,8 @@
 - [x] Create validated buyer/merchant registration tabs and merchant confirmation.
 - [x] Connect registration entry points and buyer plan selection with 10/200 bids.
 - [x] Test both flows and layout.
+
+# User dashboard
+- [x] Separate bid balances and connect package purchase simulation.
+- [x] Create pastel dashboard, activity tabs and referral link.
+- [x] Verify balances, tabs, copy action and registration link.
