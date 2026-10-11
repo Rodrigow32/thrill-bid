@@ -7,10 +7,12 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/parceiro")({
   head: () => ({
     meta: [
-      { title: "Painel do parceiro — centavo." },
+      { title: "Painel do parceiro — Thrill Bid" },
       { name: "description", content: "Cadastre itens para leilão e acompanhe status e receita de arremates." },
-      { property: "og:title", content: "Painel do parceiro — centavo." },
+      { property: "og:title", content: "Painel do parceiro — Thrill Bid" },
       { property: "og:description", content: "Cadastre itens e acompanhe seus leilões." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Page,
