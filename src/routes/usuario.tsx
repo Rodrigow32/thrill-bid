@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { ClientOnly, createFileRoute } from "@tanstack/react-router";
 import { UserDashboard } from "@/components/UserDashboard";
 
 export const Route = createFileRoute("/usuario")({
@@ -12,6 +12,10 @@ export const Route = createFileRoute("/usuario")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: UserDashboard,
+  component: UserDashboardPage,
 });
+
+function UserDashboardPage() {
+  return <ClientOnly fallback={<div role="status" className="mx-auto max-w-6xl px-5 py-10 text-muted-foreground">Carregando seu painel…</div>}><UserDashboard /></ClientOnly>;
+}
 

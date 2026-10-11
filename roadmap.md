@@ -10,6 +10,6 @@
 - [x] Test both flows and layout.
 
 # User dashboard
-- [ ] Separate bid balances and connect package purchase simulation.
-- [ ] Create pastel dashboard, activity tabs and referral link.
-- [ ] Verify balances, tabs, copy action and registration link.
+- [x] Separate bid balances and connect package purchase simulation.
+- [x] Create pastel dashboard, activity tabs and referral link.
+- [x] Verify balances, tabs, copy action and registration link.
