@@ -11,8 +11,9 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/register")({
-  validateSearch: (search: Record<string, unknown>): { perfil: "usuario" | "parceiro" } => ({
+  validateSearch: (search: Record<string, unknown>): { perfil: "usuario" | "parceiro"; ref?: string } => ({
     perfil: search["perfil"] === "parceiro" ? "parceiro" : "usuario",
+    ref: typeof search["ref"] === "string" && /^THRILL-\d{4}$/.test(search["ref"]) ? search["ref"] : undefined,
   }),
   head: () => ({
     meta: [
@@ -34,14 +35,14 @@ export const Route = createFileRoute("/register")({
 });
 
 function Register() {
-  const { perfil } = Route.useSearch();
+  const { perfil, ref } = Route.useSearch();
   const navigate = useNavigate();
   const { completeRegistration } = useVisitorAccess();
   const [step, setStep] = useState<"form" | "plans" | "received">("form");
   const [showPassword, setShowPassword] = useState(false);
   const buyer = useForm<BuyerRegistration>({
     resolver: zodResolver(buyerSchema),
-    defaultValues: { name: "", email: "", cpf: "", password: "", referral: "" },
+    defaultValues: { name: "", email: "", cpf: "", password: "", referral: ref ?? "" },
   });
   const partner = useForm<PartnerRegistration>({
     resolver: zodResolver(partnerSchema),
@@ -213,7 +214,7 @@ function Register() {
               </div>
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="contato" className="mb-2 block text-sm font-medium">
+                    <label htmlFor="cpf" className="mb-2 block text-sm font-medium">
                     CPF
                   </label>
                   <Input
