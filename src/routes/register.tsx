@@ -13,7 +13,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export const Route = createFileRoute("/register")({
   validateSearch: (search: Record<string, unknown>): { perfil: "usuario" | "parceiro"; ref?: string } => ({
     perfil: search["perfil"] === "parceiro" ? "parceiro" : "usuario",
-    ref: typeof search["ref"] === "string" && /^THRILL-\d{4}$/.test(search["ref"]) ? search["ref"] : undefined,
+    ...(typeof search["ref"] === "string" && /^THRILL-\d{4}$/.test(search["ref"]) ? { ref: search["ref"] } : {}),
   }),
   head: () => ({
     meta: [

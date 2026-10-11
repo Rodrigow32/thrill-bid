@@ -117,7 +117,8 @@ export function useEngine() {
         const left = i.endsAt - n;
         if (left <= 0) {
           if (!i.lastBidder) { updItem(i.id, () => ({ endsAt: n + 15000 })); return; }
-          updItem(i.id, (x) => ({ status: "leiloado", winner: x.lastBidder ?? undefined, finalPrice: x.price, endsAt: null }));
+          const winner = i.lastBidder;
+          updItem(i.id, (x) => ({ status: "leiloado", winner, finalPrice: x.price, endsAt: null }));
           return;
         }
         // bots bid more often near the end, but stop sometimes so auctions finish
