@@ -77,6 +77,7 @@ function placeBid(id: string, user: string) {
 
 export const actions = {
   setRole: (role: Role) => set(() => ({ role })),
+  registerDemo: (plan: "gratuito" | "pago") => set(() => ({ role: "usuario", plan, wallet: plan === "gratuito" ? 10 : 200 })),
   bid: (id: string) => {
     if (state.wallet <= 0) return false;
     set((s) => ({ wallet: s.wallet - 1 }));
@@ -84,7 +85,7 @@ export const actions = {
     return true;
   },
   buyPack: (qty: number, price: number) => set((s) => ({ wallet: s.wallet + qty, bidsPurchased: s.bidsPurchased + qty, packRevenue: s.packRevenue + price })),
-  subscribe: () => set((s) => ({ plan: "pago", wallet: s.wallet + 300, planRevenue: s.planRevenue + 49.9 })),
+  subscribe: () => set((s) => ({ plan: "pago", wallet: s.wallet + 200, planRevenue: s.planRevenue + 49.9 })),
   submitItem: (d: Pick<Item, "title" | "description" | "image" | "marketValue" | "category">) =>
     set((s) => ({ items: [...s.items, mk({ ...d, status: "pendente", endsAt: null, partner: "TechStore" })] })),
   approve: (id: string) => updItem(id, () => ({ status: "aprovado" })),
